@@ -239,6 +239,8 @@
             app:singleLineTitle="false" />
 
     </x.PreferenceCategory>
+
+    <x.PreferenceCategory android:title="@string/settings_network"
         app:singleLineTitle="false">
 
         <Preference
