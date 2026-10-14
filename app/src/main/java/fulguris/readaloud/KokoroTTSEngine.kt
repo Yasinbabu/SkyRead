@@ -23,7 +23,6 @@
 package fulguris.readaloud
 
 import android.content.Context
-import android.media.AudioAttributes
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
@@ -257,19 +256,13 @@ class KokoroTTSEngine private constructor(
             sampleRateInHz,
             AudioFormat.CHANNEL_OUT_MONO,
             AudioFormat.ENCODING_PCM_16BIT,
-            actualBufferSize,
-            AudioTrack.MODE_STREAM
-        )
+                actualBufferSize,
+                AudioTrack.MODE_STREAM
+            )
 
-        this.audioTrack = track
+            this.audioTrack = track
 
-        val audioAttributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-            .build()
-        track.setAudioAttributes(audioAttributes)
-
-        val shortBuffer = ShortArray(samples.size)
+            val shortBuffer = ShortArray(samples.size)
         for (i in samples.indices) {
             val clamped = maxOf(-1.0f, minOf(1.0f, samples[i]))
             shortBuffer[i] = (clamped * Short.MAX_VALUE).toInt().toShort()

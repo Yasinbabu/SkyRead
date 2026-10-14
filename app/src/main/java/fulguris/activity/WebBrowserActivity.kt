@@ -76,6 +76,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.EntryPointAccessors
 import fulguris.*
 import fulguris.BuildConfig
 import fulguris.R
@@ -913,8 +914,8 @@ abstract class WebBrowserActivity : ThemedBrowserActivity(),
             return
         }
 
-        val hiltEntryPoint = fulguris.di.EntryPointAccessors.fromApplication(
-            applicationContext, fulguris.di.HiltEntryPoint::class.java
+        val hiltEntryPoint = EntryPointAccessors.fromApplication(
+            applicationContext, HiltEntryPoint::class.java
         )
         val autoScrollJs = hiltEntryPoint.readAloudAutoScrollJs
 
