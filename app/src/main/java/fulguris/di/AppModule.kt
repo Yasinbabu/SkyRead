@@ -12,6 +12,7 @@ import fulguris.js.InvertPage
 import fulguris.js.NestedScrollDetect
 import fulguris.js.BlobDownload
 import fulguris.js.BlobHook
+import fulguris.js.ReadAloudAutoScroll
 import fulguris.js.TextReflow
 import fulguris.js.ThemeColor
 import fulguris.js.SetMetaViewport
@@ -207,6 +208,9 @@ class AppModule {
 
     @Provides
     fun providesBlobHook(): BlobHook = mezzanine<BlobHook>()
+
+    @Provides
+    fun providesReadAloudAutoScroll(): ReadAloudAutoScroll = mezzanine<ReadAloudAutoScroll>()
 }
 
 @Qualifier

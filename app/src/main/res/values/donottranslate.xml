@@ -22,7 +22,7 @@
 -->
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <string name="app_name">Fulguris</string>
+    <string name="app_name">SkyRead</string>
     <string name="url_app_home_page">http://fulguris.slions.net</string>
     <string name="url_privacy_policy">https://slions.net/threads/fulguris-privacy-policy.99/</string>
     <string name="url_terms_and_conditions">https://slions.net/threads/fulguris-terms-conditions.100/</string>
@@ -107,6 +107,7 @@
     <string name="pref_key_cursor_acceleration">pref_key_cursor_acceleration</string>
     <string name="pref_key_cursor_fade_timeout">pref_key_cursor_fade_timeout</string>
     <string name="pref_key_cursor_action_hold">pref_key_cursor_action_hold</string>
+    <string name="pref_key_read_aloud_speed">pref_key_read_aloud_speed</string>
     <string name="pref_key_location">pref_key_location</string>
     <string name="pref_key_location_override">pref_key_location_override</string>
     <string name="pref_key_content_control">pref_key_content_control</string>

@@ -325,14 +325,23 @@
                         app:drawableStartCompat="@drawable/ic_arrow_selector_tool_fill"
                         />
 
-                    <TextView
-                        android:id="@+id/menuItemReaderMode"
-                        style="@style/BrowserTextMenuItem"
-                        android:visibility="gone"
-                        tools:visibility="visible"
-                        app:drawableStartCompat="@drawable/ic_action_reading"
-                        android:text="@string/reading_mode"
-                        />
+                     <TextView
+                         android:id="@+id/menuItemReaderMode"
+                         style="@style/BrowserTextMenuItem"
+                         android:visibility="gone"
+                         tools:visibility="visible"
+                         app:drawableStartCompat="@drawable/ic_action_reading"
+                         android:text="@string/reading_mode"
+                         />
+
+                     <TextView
+                         android:id="@+id/menuItemReadAloud"
+                         style="@style/BrowserTextMenuItem"
+                         android:visibility="gone"
+                         tools:visibility="visible"
+                         app:drawableStartCompat="@drawable/ic_tts"
+                         android:text="@string/action_read_aloud"
+                         />
 
                     <TextView
                         android:id="@+id/menuItemTranslate"

@@ -47,6 +47,7 @@ enum class MenuItemId {
     DomainSettings,
     Translate,
     ReaderMode,
+    ReadAloud,
     AdBlock,
     DarkMode,
     DesktopMode,

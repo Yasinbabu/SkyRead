@@ -321,6 +321,7 @@ class MenuPopupWindow : PopupWindow {
             MenuItemId.Find -> iBinding.menuItemFind.isVisible = true
             MenuItemId.Print -> iBinding.menuItemPrint.isVisible = true
             MenuItemId.ReaderMode -> iBinding.menuItemReaderMode.isVisible = true
+            MenuItemId.ReadAloud -> iBinding.menuItemReadAloud.isVisible = true
             MenuItemId.DesktopMode -> iBinding.menuItemDesktopMode.isVisible = true
             MenuItemId.DarkMode -> iBinding.menuItemDarkMode.isVisible = true
             MenuItemId.AddToHome -> iBinding.menuItemAddToHome.isVisible = true
@@ -382,7 +383,8 @@ class MenuPopupWindow : PopupWindow {
                 iBinding.menuItemDomainSettings.isVisible = false
                 iBinding.menuItemFind.isVisible = false
                 iBinding.menuItemPrint.isVisible = false
-                iBinding.menuItemReaderMode.isVisible = false
+        iBinding.menuItemReaderMode.isVisible = false
+        iBinding.menuItemReadAloud.isVisible = false
                 iBinding.menuItemDesktopMode.isVisible = false
                 iBinding.menuItemDarkMode.isVisible = false
                 iBinding.menuItemAddToHome.isVisible = false

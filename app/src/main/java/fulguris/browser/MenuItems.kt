@@ -199,6 +199,15 @@ object MenuItems {
             canBeInTabMenu = true,
             defaultMenu = MenuType.TabMenu
         ),
+        MenuItemId.ReadAloud to MenuItem(
+            id = MenuItemId.ReadAloud,
+            labelId = R.string.action_read_aloud,
+            iconId = R.drawable.ic_tts,
+            viewId = R.id.menuItemReadAloud,
+            canBeInMainMenu = true,
+            canBeInTabMenu = true,
+            defaultMenu = MenuType.TabMenu
+        ),
         MenuItemId.AdBlock to MenuItem(
             id = MenuItemId.AdBlock,
             labelId = R.string.block_ads,

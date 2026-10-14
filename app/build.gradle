@@ -128,7 +128,7 @@ android {
         slions {
             dimension "BRAND"
             isDefault = true
-            applicationId "net.slions.fulguris"
+            applicationId "com.skyread.browser"
             versionCode libs.versions.slions.version.code.get().toInteger()
             versionName libs.versions.slions.version.name.get()
         }
@@ -427,6 +427,12 @@ dependencies {
 
     // Logs
     implementation libs.timber
+
+    // Sherpa-ONNX for offline TTS (Kokoro)
+    // Download the AAR manually from:
+    // https://github.com/k2-fsa/sherpa-onnx/releases/latest
+    // or let the CI workflow download it to app/libs/sherpa-onnx.aar
+    implementation(files("libs/sherpa-onnx.aar"))
 }
 
 
@@ -524,7 +530,8 @@ mezzanine {
             "src/main/js/ThemeColor.js",
             "src/main/js/NestedScrollDetect.js",
             "src/main/js/BlobDownload.js",
-            "src/main/js/BlobHook.js"
+            "src/main/js/BlobHook.js",
+            "src/main/js/ReadAloudAutoScroll.js"
     )
 }
 

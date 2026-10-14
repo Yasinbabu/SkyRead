@@ -108,6 +108,7 @@ import fulguris.html.homepage.HomePageFactory
 import fulguris.html.incognito.IncognitoPageFactory
 import fulguris.notifications.IncognitoNotification
 import fulguris.permissions.PermissionsManager
+import fulguris.readaloud.ReadAloudController
 import fulguris.search.SearchEngineProvider
 import fulguris.search.SuggestionsAdapter
 import fulguris.settings.Config
@@ -262,16 +263,19 @@ abstract class WebBrowserActivity : ThemedBrowserActivity(),
     // (a D-pad press count can't deterministically land on a specific control across devices —
     // the per-press step is DPI-dependent and key events get dropped over network adb). See
     // [iCursorTeleportReceiver]. Never registered in release builds.
-    private val iCursorTeleportReceiver = object : android.content.BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            if (!BuildConfig.DEBUG) return
-            val x = intent.getFloatExtra("x", Float.NaN)
-            val y = intent.getFloatExtra("y", Float.NaN)
-            if (!x.isNaN() && !y.isNaN() && ::iCursorController.isInitialized) {
-                iCursorController.setPosition(x, y)
-            }
-        }
-    }
+     private val iCursorTeleportReceiver = object : android.content.BroadcastReceiver() {
+         override fun onReceive(context: Context, intent: Intent) {
+             if (!BuildConfig.DEBUG) return
+             val x = intent.getFloatExtra("x", Float.NaN)
+             val y = intent.getFloatExtra("y", Float.NaN)
+             if (!x.isNaN() && !y.isNaN() && ::iCursorController.isInitialized) {
+                 iCursorController.setPosition(x, y)
+             }
+         }
+     }
+
+     // Read Aloud controller
+     private var iReadAloudController: ReadAloudController? = null
     // While an HTML5 video is fullscreen the cursor must dispatch into (and overlay) the fullscreen
     // custom view instead of the WebView. See onShowCustomView / onHideCustomView.
     private var iCursorTargetOverride: View? = null
@@ -801,6 +805,7 @@ abstract class WebBrowserActivity : ThemedBrowserActivity(),
             onMenuItemClicked(iBinding.menuItemPrint) { dismiss(); executeAction(R.id.action_print) }
             onMenuItemClicked(iBinding.menuItemAddToHome) { dismiss(); executeAction(R.id.action_add_to_homescreen) }
             onMenuItemClicked(iBinding.menuItemReaderMode) { dismiss(); executeAction(R.id.action_reading_mode) }
+            onMenuItemClicked(iBinding.menuItemReadAloud) { dismiss(); executeAction(R.id.action_read_aloud) }
             onMenuItemClicked(iBinding.menuItemDesktopMode) { dismiss(); executeAction(R.id.action_toggle_desktop_mode) }
             onMenuItemClicked(iBinding.menuItemDarkMode) { dismiss(); executeAction(R.id.action_toggle_dark_mode) }
             onMenuItemClicked(iBinding.menuItemAdBlock) { dismiss(); executeAction(R.id.action_block) }
@@ -889,6 +894,53 @@ abstract class WebBrowserActivity : ThemedBrowserActivity(),
     /** Toggle the cursor on/off, wired to both the hotkey and the menu item. */
     fun toggleCursor() {
         if (::iCursorController.isInitialized) iCursorController.toggle()
+    }
+
+    /**
+     * Toggle Read Aloud: starts/stops text extraction and speech synthesis.
+     * Injects Readability.js and ReadAloudAutoScroll.js into the current WebView,
+     * extracts article text, and speaks it via KokoroTTSEngine.
+     */
+    private fun toggleReadAloud() {
+        val wv = currentTabView
+        if (wv == null) {
+            Timber.w("Cannot read aloud: no current WebView")
+            return
+        }
+
+        if (iReadAloudController?.isSpeaking() == true) {
+            iReadAloudController?.stop()
+            return
+        }
+
+        val hiltEntryPoint = fulguris.di.EntryPointAccessors.fromApplication(
+            applicationContext, fulguris.di.HiltEntryPoint::class.java
+        )
+        val autoScrollJs = hiltEntryPoint.readAloudAutoScrollJs
+
+        val controller = ReadAloudController(
+            context = applicationContext,
+            autoScrollJs = autoScrollJs,
+            speechRate = hiltEntryPoint.userPreferences.readAloudSpeechRate,
+            speakerId = 0
+        )
+        controller.setCallback(object : ReadAloudController.Callback {
+            override fun onProgress(charIndex: Int, charLength: Int) {
+                // Update UI or notify user of progress
+            }
+
+            override fun onCompleted() {
+                iReadAloudController = null
+            }
+
+            override fun onError(errorMessage: String) {
+                Timber.e("Read Aloud error: $errorMessage")
+                iReadAloudController = null
+            }
+        })
+        iReadAloudController = controller
+        controller.attachWebView(wv)
+        controller.extractAndSpeak()
     }
 
     /**
@@ -1362,6 +1414,7 @@ abstract class WebBrowserActivity : ThemedBrowserActivity(),
         iBindingToolbarContent.homeButton.setOnClickListener(this)
         iBindingToolbarContent.buttonActionBack.setOnClickListener{executeAction(R.id.action_back)}
         iBindingToolbarContent.buttonActionForward.setOnClickListener{executeAction(R.id.action_forward)}
+        iBindingToolbarContent.buttonReadAloud.setOnClickListener{executeAction(R.id.action_read_aloud)}
 
         // Long press on back button to show page history
         iBindingToolbarContent.buttonActionBack.setOnLongClickListener {
@@ -2837,6 +2890,10 @@ abstract class WebBrowserActivity : ThemedBrowserActivity(),
                 if (currentUrl != null) {
                     ReadingActivity.launch(this, currentUrl, false)
                 }
+                return true
+            }
+            R.id.action_read_aloud -> {
+                toggleReadAloud()
                 return true
             }
             R.id.action_restore_page -> {

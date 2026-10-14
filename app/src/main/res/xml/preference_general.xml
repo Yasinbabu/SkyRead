@@ -220,7 +220,25 @@
     </x.PreferenceCategory>
 
     <x.PreferenceCategory
-        android:title="@string/settings_network"
+        android:title="@string/action_read_aloud"
+        android:summary="@string/pref_summary_read_aloud_category"
+        app:singleLineTitle="false">
+
+        <x.SliderPreference
+            app:key="@string/pref_key_read_aloud_speed"
+            app:title="@string/pref_title_read_aloud_speed"
+            app:icon="@drawable/ic_tts"
+            app:showSeekBarValue="true"
+            app:updatesContinuously="true"
+            android:valueFrom="0.5"
+            android:valueTo="2.0"
+            android:stepSize="0.1"
+            android:value="1.0"
+            app:labelBehavior="gone"
+            app:format="%.1fx"
+            app:singleLineTitle="false" />
+
+    </x.PreferenceCategory>
         app:singleLineTitle="false">
 
         <Preference

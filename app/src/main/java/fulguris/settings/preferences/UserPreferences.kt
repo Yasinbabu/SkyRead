@@ -293,6 +293,11 @@ class UserPreferences @Inject constructor(
     var readingTextSize by preferences.intPreference(READING_TEXT_SIZE, 2)
 
     /**
+     * Text-to-speech speech rate for the Read Aloud feature, 0.5x to 2.0x.
+     */
+    var readAloudSpeechRate by preferences.safeFloatPreference(R.string.pref_key_read_aloud_speed, 1.0f)
+
+    /**
      * The index of the theme used by the application.
      */
     var useTheme by preferences.enumPreference(R.string.pref_key_theme, AppTheme.DEFAULT)
@@ -520,6 +525,7 @@ private const val CLEAR_HISTORY_EXIT = "clearHistoryExit"
 private const val CLEAR_COOKIES_EXIT = "clearCookiesExit"
 private const val INVERT_COLORS = "invertColors"
 private const val READING_TEXT_SIZE = "readingTextSize"
+private const val READ_ALOUD_SPEED = "readAloudSpeed"
 private const val CLEAR_WEB_STORAGE_EXIT = "clearWebStorageExit"
 private const val DO_NOT_TRACK = "doNotTrack"
 private const val IDENTIFYING_HEADERS = "removeIdentifyingHeaders"
