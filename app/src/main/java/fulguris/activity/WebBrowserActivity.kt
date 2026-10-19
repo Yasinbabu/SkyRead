@@ -1415,8 +1415,7 @@ abstract class WebBrowserActivity : ThemedBrowserActivity(),
         iBindingToolbarContent.homeButton.setOnClickListener(this)
         iBindingToolbarContent.buttonActionBack.setOnClickListener{executeAction(R.id.action_back)}
         iBindingToolbarContent.buttonActionForward.setOnClickListener{executeAction(R.id.action_forward)}
-        iBindingToolbarContent.buttonReadAloud.setOnClickListener{executeAction(R.id.action_read_aloud)}
-
+        
         // Long press on back button to show page history
         iBindingToolbarContent.buttonActionBack.setOnLongClickListener {
             showPageHistory()
